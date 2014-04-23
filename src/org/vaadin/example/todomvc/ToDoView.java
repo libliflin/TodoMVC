@@ -8,6 +8,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextField;
@@ -50,6 +51,32 @@ public class ToDoView extends VerticalLayout implements View {
 				main.addComponent(getNewTodoRow(newTodo.getValue(), false, false));
 			}
 		});
+
+        addComponent(new CssLayout() {
+            {
+                addStyleName("footer");
+
+                Label todoCount = new Label("## items left");
+                todoCount.addStyleName("todo-count");
+                todoCount.setSizeUndefined();
+                addComponent(todoCount);
+
+                HorizontalLayout filters = new HorizontalLayout();
+                filters.addStyleName("filters");
+                addComponent(filters);
+
+                NativeButton all = new NativeButton("All");
+                NativeButton active = new NativeButton("Active");
+                NativeButton completed = new NativeButton("Completed");
+                filters.addComponents(all, active, completed);
+
+                NativeButton clearCompleted = new NativeButton(
+                        "Clear completed (#)");
+                clearCompleted.addStyleName("clear-completed");
+                addComponent(clearCompleted);
+
+            }
+        });
 
     }
 
