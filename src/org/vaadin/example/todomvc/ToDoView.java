@@ -222,6 +222,9 @@ public class ToDoView extends CssLayout {
                 public void buttonClick(ClickEvent event) {
                     main.removeComponent(TodoRow.this);
                     rows.remove(TodoRow.this);
+                    if (checkbox.getValue().booleanValue()) {
+                        itemsCompleted--;
+                    }
                     updateCounters();
                 }
             });
