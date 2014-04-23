@@ -1,5 +1,7 @@
 package org.vaadin.example.todomvc;
 
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CheckBox;
@@ -10,19 +12,20 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class ToDoView extends VerticalLayout implements View {
+	private TextField newTodo;
+    private CssLayout main;
 
-    public ToDoView() {
-
+	public ToDoView() {
         Label title = new Label("todos");
         title.addStyleName("title");
         addComponent(title);
 
-        TextField newTodo = new TextField();
+        newTodo = new TextField();
         newTodo.addStyleName("new-todo");
         newTodo.setInputPrompt("What needs to be done?");
         addComponent(newTodo);
 
-        addComponent(new CssLayout() {
+        addComponent(main = new CssLayout() {
             {
                 addStyleName("main");
                 CheckBox toggleAll = new CheckBox("Mark all as complete");
@@ -37,6 +40,14 @@ public class ToDoView extends VerticalLayout implements View {
                         "This one is not done and is being edited", false, true));
             }
         });
+        
+        newTodo.addShortcutListener(new ShortcutListener(null, KeyCode.ENTER, null) {
+			
+			@Override
+			public void handleAction(Object sender, Object target) {
+				main.addComponent(getNewTodoRow(newTodo.getValue(), false, false));
+			}
+		});
 
     }
 
