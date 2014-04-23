@@ -32,15 +32,16 @@ public class ToDoView extends VerticalLayout {
         addComponent(title);
 
         newTodo = new TextField();
-        newTodo.addStyleName("new-todo");
+        newTodo.setId("new-todo");
         newTodo.setInputPrompt("What needs to be done?");
         addComponent(newTodo);
 
         addComponent(main = new CssLayout() {
             {
-                addStyleName("main");
+                setId("main");
+
                 CheckBox toggleAll = new CheckBox("Mark all as complete");
-                toggleAll.addStyleName("toggle-all");
+                toggleAll.setId("toggle-all");
                 addComponent(toggleAll);
 
                 addComponent(getNewTodoRow("This item is done", true, false));
@@ -84,16 +85,16 @@ public class ToDoView extends VerticalLayout {
 
         addComponent(new CssLayout() {
             {
-                addStyleName("footer");
+                setId("footer");
 
                 Label todoCount = new Label("<b>##</b> items left",
                         ContentMode.HTML);
-                todoCount.addStyleName("todo-count");
+                todoCount.setId("todo-count");
                 todoCount.setSizeUndefined();
                 addComponent(todoCount);
 
                 CssLayout filters = new CssLayout();
-                filters.addStyleName("filters");
+                filters.setId("filters");
                 addComponent(filters);
 
                 NativeButton all = new NativeButton("All");
@@ -104,7 +105,7 @@ public class ToDoView extends VerticalLayout {
 
                 NativeButton clearCompleted = new NativeButton(
                         "Clear completed (#)");
-                clearCompleted.addStyleName("clear-completed");
+                clearCompleted.setId("clear-completed");
                 addComponent(clearCompleted);
 
             }

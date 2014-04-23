@@ -130,7 +130,7 @@ input[type="checkbox"] {
 	overflow: visible;
 }
 
-.new-todo {
+#new-todo {
 	position: relative;
 	margin: 0;
 	width: 100%;
@@ -160,14 +160,14 @@ input[type="checkbox"] {
 	box-shadow: none;
 }
 
-.main {
+#main {
 	overflow: visible;
 	position: relative;
 	z-index: 2;
 	border-top: 1px dotted #adadad;
 }
 
-.toggle-all input {
+#toggle-all input {
 	position: absolute;
 	top: -42px;
 	left: -4px;
@@ -187,14 +187,18 @@ input[type="checkbox"] {
 	appearance: none;
 }
 
-.toggle-all input:before {
+#toggle-all input:before {
 	content: '»';
 	font-size: 28px;
 	color: #d9d9d9;
 	padding: 0 25px 7px;
 }
 
-.toggle-all label {
+#toggle-all input:checked:before {
+  color: #737373;
+}
+
+#toggle-all label {
 	display: none;
 }
 
@@ -331,7 +335,7 @@ input[type="checkbox"] {
 	margin: 0 0 0 43px;
 }
 
-.footer {
+#footer {
 	overflow: visible;
 	color: #777;
 	padding: 0 15px;
@@ -344,7 +348,7 @@ input[type="checkbox"] {
 	text-align: center;
 }
 
-.footer:before {
+#footer:before {
 	content: '';
 	position: absolute;
 	right: 0;
@@ -359,12 +363,12 @@ input[type="checkbox"] {
 	      0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
-.todo-count {
+#todo-count {
 	float: left;
   text-align: left;
 }
 
-.filters {
+#filters {
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -374,17 +378,17 @@ input[type="checkbox"] {
 	text-align: inherit;
 }
 
-.filters .v-nativebutton {
+#filters .v-nativebutton {
 	color: #83756f;
 	margin: 2px 8px 2px 2px;
 	text-decoration: none;
 }
 
-.filters .v-nativebutton.selected {
+#filters .v-nativebutton.selected {
 	font-weight: bold;
 }
 
-.clear-completed {
+#clear-completed {
 	float: right;
 	position: relative;
 	line-height: 20px;
