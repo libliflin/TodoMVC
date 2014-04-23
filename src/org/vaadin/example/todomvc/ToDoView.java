@@ -26,6 +26,7 @@ public class ToDoView extends CssLayout {
     private TextField newTodo;
     private CssLayout main;
     private CheckBox toggleAll;
+    private Label todoCount;
 
     private boolean newTodoFocused;
     private Set<TodoRow> rows = new HashSet<TodoRow>();
@@ -98,8 +99,7 @@ public class ToDoView extends CssLayout {
             {
                 setId("footer");
 
-                Label todoCount = new Label("<b>##</b> items left",
-                        ContentMode.HTML);
+                todoCount = new Label("<b>0</b> items left", ContentMode.HTML);
                 todoCount.setId("todo-count");
                 todoCount.setSizeUndefined();
                 addComponent(todoCount);
@@ -127,6 +127,7 @@ public class ToDoView extends CssLayout {
             final boolean editing) {
         TodoRow row = new TodoRow(captionText, done, editing);
         rows.add(row);
+        todoCount.setValue("<b>" + rows.size() + "</b> items left");
         return row;
     }
 
@@ -198,6 +199,7 @@ public class ToDoView extends CssLayout {
                 public void buttonClick(ClickEvent event) {
                     main.removeComponent(TodoRow.this);
                     rows.remove(TodoRow.this);
+                    todoCount.setValue("<b>" + rows.size() + "</b> items left");
                 }
             });
         }
