@@ -162,6 +162,10 @@ h1 {
 	box-shadow: none;
 }
 
+#new-todo.v-textfield-prompt {
+	color: #a9a9a9;
+}
+
 #main {
 	position: relative;
 	z-index: 2;
