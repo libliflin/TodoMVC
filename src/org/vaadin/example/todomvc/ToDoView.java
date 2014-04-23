@@ -110,16 +110,52 @@ public class ToDoView extends CssLayout {
                 filters.setId("filters");
                 addComponent(filters);
 
-                NativeButton all = new NativeButton("All");
+                final NativeButton all = new NativeButton("All");
                 all.addStyleName("selected");
-                NativeButton active = new NativeButton("Active");
-                NativeButton completed = new NativeButton("Completed");
+                final NativeButton active = new NativeButton("Active");
+                final NativeButton completed = new NativeButton("Completed");
                 filters.addComponents(all, active, completed);
 
                 clearCompleted = new NativeButton("Clear completed (0)");
                 clearCompleted.setId("clear-completed");
                 addComponent(clearCompleted);
 
+                all.addClickListener(new ClickListener() {
+
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        all.addStyleName("selected");
+                        active.removeStyleName("selected");
+                        completed.removeStyleName("selected");
+                        for (TodoRow row : rows) {
+                            row.setVisible(true);
+                        }
+                    }
+                });
+                active.addClickListener(new ClickListener() {
+
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        all.removeStyleName("selected");
+                        active.addStyleName("selected");
+                        completed.removeStyleName("selected");
+                        for (TodoRow row : rows) {
+                            row.setVisible(!row.isCompleted());
+                        }
+                    }
+                });
+                completed.addClickListener(new ClickListener() {
+
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        all.removeStyleName("selected");
+                        active.removeStyleName("selected");
+                        completed.addStyleName("selected");
+                        for (TodoRow row : rows) {
+                            row.setVisible(row.isCompleted());
+                        }
+                    }
+                });
             }
         });
     }
@@ -228,6 +264,10 @@ public class ToDoView extends CssLayout {
                     updateCounters();
                 }
             });
+        }
+
+        public boolean isCompleted() {
+            return checkbox.getValue().booleanValue();
         }
 
         public void setCompleted(boolean completed) {
