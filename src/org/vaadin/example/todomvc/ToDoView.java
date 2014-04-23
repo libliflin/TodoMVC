@@ -10,7 +10,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
@@ -119,29 +118,30 @@ public class ToDoView extends VerticalLayout implements View {
         row.addComponent(edit);
 
         completed.addValueChangeListener(new ValueChangeListener() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				if (completed.getValue().booleanValue()) {
-					row.addStyleName("completed");
-				} else {
-					row.removeStyleName("completed");
-				}
-			}
-		});
-        
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                if (completed.getValue().booleanValue()) {
+                    row.addStyleName("completed");
+                } else {
+                    row.removeStyleName("completed");
+                }
+            }
+        });
+
         row.addLayoutClickListener(new LayoutClickListener() {
-			
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
-				if (event.isDoubleClick() && caption == event.getClickedComponent()) {
-					row.addStyleName("editing");
-					edit.selectAll();
-					edit.focus();
-				}
-			}
-		});
-        
+
+            @Override
+            public void layoutClick(LayoutClickEvent event) {
+                if (event.isDoubleClick()
+                        && caption == event.getClickedComponent()) {
+                    row.addStyleName("editing");
+                    edit.selectAll();
+                    edit.focus();
+                }
+            }
+        });
+
         return row;
     }
 
