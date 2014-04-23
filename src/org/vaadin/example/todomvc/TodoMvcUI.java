@@ -21,6 +21,7 @@ public class TodoMvcUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        setSizeUndefined();
         setContent(new ToDoView());
     }
 
