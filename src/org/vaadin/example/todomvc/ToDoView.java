@@ -2,6 +2,10 @@ package org.vaadin.example.todomvc;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -9,7 +13,6 @@ import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -18,10 +21,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class ToDoView extends VerticalLayout implements View {
-	private TextField newTodo;
+    private TextField newTodo;
     private CssLayout main;
 
-	public ToDoView() {
+    private boolean newTodoFocused;
+
+    public ToDoView() {
         Label title = new Label("todos");
         title.addStyleName("title");
         addComponent(title);
@@ -46,14 +51,34 @@ public class ToDoView extends VerticalLayout implements View {
                         "This one is not done and is being edited", false, true));
             }
         });
-        
-        newTodo.addShortcutListener(new ShortcutListener(null, KeyCode.ENTER, null) {
-			
-			@Override
-			public void handleAction(Object sender, Object target) {
-				main.addComponent(getNewTodoRow(newTodo.getValue(), false, false));
-			}
-		});
+
+        newTodo.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focus(FocusEvent event) {
+                newTodoFocused = true;
+            }
+        });
+        newTodo.addBlurListener(new BlurListener() {
+
+            @Override
+            public void blur(BlurEvent event) {
+                newTodoFocused = false;
+            }
+        });
+        addShortcutListener(new ShortcutListener(null, KeyCode.ENTER, null) {
+
+            @Override
+            public void handleAction(Object sender, Object target) {
+                if (newTodoFocused) {
+                    main.addComponent(getNewTodoRow(newTodo.getValue(), false,
+                            false));
+                    newTodo.setValue("");
+                } else {
+                    getUI().focus();
+                }
+            }
+        });
 
         addComponent(new CssLayout() {
             {
@@ -115,29 +140,39 @@ public class ToDoView extends VerticalLayout implements View {
         row.addComponent(edit);
 
         completed.addValueChangeListener(new ValueChangeListener() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				if (completed.getValue().booleanValue()) {
-					row.addStyleName("completed");
-				} else {
-					row.removeStyleName("completed");
-				}
-			}
-		});
-        
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                if (completed.getValue().booleanValue()) {
+                    row.addStyleName("completed");
+                } else {
+                    row.removeStyleName("completed");
+                }
+            }
+        });
+
         row.addLayoutClickListener(new LayoutClickListener() {
-			
-			@Override
-			public void layoutClick(LayoutClickEvent event) {
-				if (event.isDoubleClick() && caption == event.getClickedComponent()) {
-					row.addStyleName("editing");
-					edit.selectAll();
-					edit.focus();
-				}
-			}
-		});
-        
+
+            @Override
+            public void layoutClick(LayoutClickEvent event) {
+                if (event.isDoubleClick()
+                        && caption == event.getClickedComponent()) {
+                    row.addStyleName("editing");
+                    edit.selectAll();
+                    edit.focus();
+                }
+            }
+        });
+
+        edit.addBlurListener(new BlurListener() {
+
+            @Override
+            public void blur(BlurEvent event) {
+                row.removeStyleName("editing");
+                caption.setValue(edit.getValue());
+            }
+        });
+
         return row;
     }
 
