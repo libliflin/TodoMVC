@@ -2,7 +2,6 @@ package org.vaadin.example.todomvc;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
@@ -37,13 +36,13 @@ public class ToDoView extends VerticalLayout implements View {
 
     public ToDoView() {
 
-        CssLayout root = new CssLayout();
-        addComponent(root);
-        setComponentAlignment(root, Alignment.TOP_CENTER);
-
         Label title = new Label("todos");
         title.addStyleName("title");
-        root.addComponent(title);
+        addComponent(title);
+
+        TextField newTodo = new TextField();
+        newTodo.addStyleName("new-todo");
+        addComponent(newTodo);
 
     }
 
