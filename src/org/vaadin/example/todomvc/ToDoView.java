@@ -71,9 +71,11 @@ public class ToDoView extends VerticalLayout {
             @Override
             public void handleAction(Object sender, Object target) {
                 if (newTodoFocused) {
-                    main.addComponent(getNewTodoRow(newTodo.getValue(), false,
-                            false));
-                    newTodo.setValue("");
+                    String value = newTodo.getValue();
+                    if (!value.isEmpty()) {
+                        main.addComponent(getNewTodoRow(value, false, false));
+                        newTodo.setValue("");
+                    }
                 } else {
                     getUI().focus();
                 }
