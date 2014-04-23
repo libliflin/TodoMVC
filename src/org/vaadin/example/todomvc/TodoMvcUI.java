@@ -33,7 +33,7 @@ public class TodoMvcUI extends UI {
 
         Label info = new Label(
                 "<p>Double-click to edit a todo</p>"
-                        + "<p>Written by <a href=\"https://github.com/jounik\">Jouni Koivuviita</a> and <a href=\"https://github.com/marlonrichers\">Marlon Richert</a></p>"
+                        + "<p>Written by <a href=\"https://github.com/jounik\">Jouni Koivuviita</a> and <a href=\"https://github.com/marlonrichert\">Marlon Richert</a></p>"
                         + "<p>Part of <a href=\"http://todomvc.com\">TodoMVC</a></p>",
                 ContentMode.HTML);
         info.setId("info");
