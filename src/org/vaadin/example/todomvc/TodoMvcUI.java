@@ -7,6 +7,9 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
@@ -22,7 +25,20 @@ public class TodoMvcUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         setSizeUndefined();
-        setContent(new ToDoView());
+
+        CssLayout root = new CssLayout();
+        setContent(root);
+
+        root.addComponent(new ToDoView());
+
+        Label info = new Label(
+                "<p>Double-click to edit a todo</p>"
+                        + "<p>Written by <a href=\"https://github.com/jounik\">Jouni Koivuviita</a> and <a href=\"https://github.com/marlonrichert\">Marlon Richert</a></p>"
+                        + "<p>Part of <a href=\"http://todomvc.com\">TodoMVC</a></p>",
+                ContentMode.HTML);
+        info.setId("info");
+        root.addComponent(info);
+
     }
 
 }

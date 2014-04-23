@@ -25,6 +25,11 @@ input[type="checkbox"] {
 	vertical-align: baseline;
 }
 
+/* Override Vaadin default */
+.v-csslayout {
+	overflow: visible;
+}
+
 
 .v-generated-body {
 	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -56,7 +61,6 @@ input[type="checkbox"] {
 #todoapp {
 	background: #fff;
 	background: rgba(255, 255, 255, 0.9);
-	margin: 130px 0 40px 0;
 	border: 1px solid #ccc;
 	position: relative;
 	border-top-left-radius: 2px;
@@ -65,7 +69,6 @@ input[type="checkbox"] {
 	      0 25px 50px 0 rgba(0, 0, 0, 0.15);
   width: 550px;
   margin: 130px auto 40px auto;
-  min-height: 50px;
 }
 
 
@@ -102,6 +105,7 @@ h1 {
 }
 
 #header {
+	display: block;
 	padding-top: 15px;
   border-radius: inherit;
 }
@@ -158,8 +162,11 @@ h1 {
 	box-shadow: none;
 }
 
+#new-todo.v-textfield-prompt {
+	color: #a9a9a9;
+}
+
 #main {
-	overflow: visible;
 	position: relative;
 	z-index: 2;
 	border-top: 1px dotted #adadad;
@@ -334,7 +341,6 @@ h1 {
 }
 
 #footer {
-	overflow: visible;
 	color: #777;
 	padding: 0 15px;
 	position: absolute;
@@ -396,4 +402,16 @@ h1 {
 	padding: 0 10px;
 	border-radius: 3px;
 	box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+}
+
+#info {
+	margin: 65px auto 0;
+	color: #a6a6a6;
+	font-size: 12px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	text-align: center;
+}
+
+#info a {
+	color: inherit;
 }
