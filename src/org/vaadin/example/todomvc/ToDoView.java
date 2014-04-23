@@ -27,9 +27,13 @@ public class ToDoView extends VerticalLayout {
     private boolean newTodoFocused;
 
     public ToDoView() {
-        Label title = new Label("todos");
-        title.addStyleName("title");
-        addComponent(title);
+        setSizeUndefined();
+        setId("todoapp");
+
+        Label header = new Label("<h1>todos</h1>", ContentMode.HTML);
+        header.setId("header");
+        header.setSizeUndefined();
+        addComponent(header);
 
         newTodo = new TextField();
         newTodo.setId("new-todo");
