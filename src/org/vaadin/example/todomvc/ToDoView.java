@@ -11,6 +11,8 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -164,6 +166,14 @@ public class ToDoView extends VerticalLayout {
             public void blur(BlurEvent event) {
                 row.removeStyleName("editing");
                 caption.setValue(edit.getValue());
+            }
+        });
+
+        destroy.addClickListener(new ClickListener() {
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+                main.removeComponent(row);
             }
         });
 
