@@ -2,11 +2,14 @@ package org.vaadin.example.todomvc;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -99,7 +102,7 @@ public class ToDoView extends VerticalLayout implements View {
         final CheckBox completed = new CheckBox(null, done);
         row.addComponent(completed);
 
-        Label caption = new Label(captionText);
+        final Label caption = new Label(captionText);
         caption.setSizeUndefined();
         row.addComponent(caption);
 
@@ -107,7 +110,7 @@ public class ToDoView extends VerticalLayout implements View {
         destroy.addStyleName("destroy");
         row.addComponent(destroy);
 
-        TextField edit = new TextField();
+        final TextField edit = new TextField();
         edit.setValue(captionText);
         row.addComponent(edit);
 
@@ -119,6 +122,18 @@ public class ToDoView extends VerticalLayout implements View {
 					row.addStyleName("completed");
 				} else {
 					row.removeStyleName("completed");
+				}
+			}
+		});
+        
+        row.addLayoutClickListener(new LayoutClickListener() {
+			
+			@Override
+			public void layoutClick(LayoutClickEvent event) {
+				if (event.isDoubleClick() && caption == event.getClickedComponent()) {
+					row.addStyleName("editing");
+					edit.selectAll();
+					edit.focus();
 				}
 			}
 		});
