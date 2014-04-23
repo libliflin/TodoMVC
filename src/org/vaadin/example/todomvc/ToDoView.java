@@ -25,7 +25,7 @@ import com.vaadin.ui.TextField;
 public class ToDoView extends CssLayout {
     private TextField newTodo;
     private CssLayout main;
-    private CheckBox toggleAll;
+    private Toggle toggleAll;
     private Label todoCount;
     private NativeButton clearCompleted;
 
@@ -50,7 +50,7 @@ public class ToDoView extends CssLayout {
         addComponent(main = new CssLayout() {
             {
                 setId("main");
-                toggleAll = new CheckBox("Mark all as complete");
+                toggleAll = new Toggle("Mark all as complete");
                 toggleAll.setId("toggle-all");
                 addComponent(toggleAll);
             }
@@ -128,14 +128,27 @@ public class ToDoView extends CssLayout {
             final boolean editing) {
         TodoRow row = new TodoRow(captionText, done, editing);
         rows.add(row);
-        updateFooter();
+        updateCounters();
         return row;
     }
 
-    private void updateFooter() {
-        todoCount.setValue("<b>" + (rows.size() - itemsCompleted)
-                + "</b> items left");
+    private void updateCounters() {
+        int itemsLeft = rows.size() - itemsCompleted;
+        todoCount.setValue("<b>" + itemsLeft + "</b> items left");
         clearCompleted.setCaption("Clear completed (" + itemsCompleted + ")");
+        toggleAll.setInternalValue(itemsLeft == 0);
+    }
+
+    public class Toggle extends CheckBox {
+
+        public Toggle(String caption) {
+            super(caption);
+        }
+
+        @Override
+        public void setInternalValue(Boolean newValue) {
+            super.setInternalValue(newValue);
+        }
     }
 
     private class TodoRow extends CssLayout {
@@ -177,7 +190,7 @@ public class ToDoView extends CssLayout {
                         removeStyleName("completed");
                         itemsCompleted--;
                     }
-                    updateFooter();
+                    updateCounters();
                 }
             });
 
@@ -209,7 +222,7 @@ public class ToDoView extends CssLayout {
                 public void buttonClick(ClickEvent event) {
                     main.removeComponent(TodoRow.this);
                     rows.remove(TodoRow.this);
-                    updateFooter();
+                    updateCounters();
                 }
             });
         }
