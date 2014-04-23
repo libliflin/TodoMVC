@@ -1,5 +1,7 @@
 package org.vaadin.example.todomvc;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
@@ -58,7 +60,7 @@ public class ToDoView extends VerticalLayout implements View {
     }
 
     CssLayout getNewTodoRow(String captionText, boolean done, boolean editing) {
-        CssLayout row = new CssLayout();
+        final CssLayout row = new CssLayout();
         row.addStyleName("todo-row");
         if (done) {
             row.addStyleName("completed");
@@ -67,8 +69,8 @@ public class ToDoView extends VerticalLayout implements View {
             row.addStyleName("editing");
         }
 
-        CheckBox toggle = new CheckBox(null, done);
-        row.addComponent(toggle);
+        final CheckBox completed = new CheckBox(null, done);
+        row.addComponent(completed);
 
         Label caption = new Label(captionText);
         caption.setSizeUndefined();
@@ -82,6 +84,18 @@ public class ToDoView extends VerticalLayout implements View {
         edit.setValue(captionText);
         row.addComponent(edit);
 
+        completed.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (completed.getValue().booleanValue()) {
+					row.addStyleName("completed");
+				} else {
+					row.removeStyleName("completed");
+				}
+			}
+		});
+        
         return row;
     }
 
