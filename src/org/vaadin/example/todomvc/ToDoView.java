@@ -27,9 +27,11 @@ public class ToDoView extends CssLayout {
     private CssLayout main;
     private CheckBox toggleAll;
     private Label todoCount;
+    private NativeButton clearCompleted;
 
     private boolean newTodoFocused;
     private Set<TodoRow> rows = new HashSet<TodoRow>();
+    private int itemsCompleted = 0;
 
     public ToDoView() {
         setSizeUndefined();
@@ -114,8 +116,7 @@ public class ToDoView extends CssLayout {
                 NativeButton completed = new NativeButton("Completed");
                 filters.addComponents(all, active, completed);
 
-                NativeButton clearCompleted = new NativeButton(
-                        "Clear completed (#)");
+                clearCompleted = new NativeButton("Clear completed (0)");
                 clearCompleted.setId("clear-completed");
                 addComponent(clearCompleted);
 
@@ -123,12 +124,18 @@ public class ToDoView extends CssLayout {
         });
     }
 
-    CssLayout getNewTodoRow(final String captionText, final boolean done,
+    private TodoRow getNewTodoRow(final String captionText, final boolean done,
             final boolean editing) {
         TodoRow row = new TodoRow(captionText, done, editing);
         rows.add(row);
-        todoCount.setValue("<b>" + rows.size() + "</b> items left");
+        updateFooter();
         return row;
+    }
+
+    private void updateFooter() {
+        todoCount.setValue("<b>" + (rows.size() - itemsCompleted)
+                + "</b> items left");
+        clearCompleted.setCaption("Clear completed (" + itemsCompleted + ")");
     }
 
     private class TodoRow extends CssLayout {
@@ -165,9 +172,12 @@ public class ToDoView extends CssLayout {
                 public void valueChange(ValueChangeEvent event) {
                     if (checkbox.getValue().booleanValue()) {
                         addStyleName("completed");
+                        itemsCompleted++;
                     } else {
                         removeStyleName("completed");
+                        itemsCompleted--;
                     }
+                    updateFooter();
                 }
             });
 
@@ -199,7 +209,7 @@ public class ToDoView extends CssLayout {
                 public void buttonClick(ClickEvent event) {
                     main.removeComponent(TodoRow.this);
                     rows.remove(TodoRow.this);
-                    todoCount.setValue("<b>" + rows.size() + "</b> items left");
+                    updateFooter();
                 }
             });
         }
