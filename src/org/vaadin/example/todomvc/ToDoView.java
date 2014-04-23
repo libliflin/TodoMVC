@@ -54,6 +54,17 @@ public class ToDoView extends VerticalLayout {
             }
         });
 
+        toggleAll.addValueChangeListener(new ValueChangeListener() {
+
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                boolean completed = toggleAll.getValue().booleanValue();
+                for (TodoRow row : rows) {
+                    row.setCompleted(completed);
+                }
+            }
+        });
+
         newTodo.addFocusListener(new FocusListener() {
 
             @Override
@@ -122,6 +133,8 @@ public class ToDoView extends VerticalLayout {
     }
 
     private class TodoRow extends CssLayout {
+        private CheckBox checkbox;
+
         public TodoRow(final String captionText, final boolean done,
                 final boolean editing) {
             addStyleName("todo-row");
@@ -132,8 +145,8 @@ public class ToDoView extends VerticalLayout {
                 addStyleName("editing");
             }
 
-            final CheckBox completed = new CheckBox(null, done);
-            addComponent(completed);
+            checkbox = new CheckBox(null, done);
+            addComponent(checkbox);
 
             final Label caption = new Label(captionText);
             caption.setSizeUndefined();
@@ -147,11 +160,11 @@ public class ToDoView extends VerticalLayout {
             edit.setValue(captionText);
             addComponent(edit);
 
-            completed.addValueChangeListener(new ValueChangeListener() {
+            checkbox.addValueChangeListener(new ValueChangeListener() {
 
                 @Override
                 public void valueChange(ValueChangeEvent event) {
-                    if (completed.getValue().booleanValue()) {
+                    if (checkbox.getValue().booleanValue()) {
                         addStyleName("completed");
                     } else {
                         removeStyleName("completed");
@@ -189,7 +202,10 @@ public class ToDoView extends VerticalLayout {
                     rows.remove(TodoRow.this);
                 }
             });
+        }
 
+        public void setCompleted(boolean completed) {
+            checkbox.setValue(completed);
         }
     }
 }
