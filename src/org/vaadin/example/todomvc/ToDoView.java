@@ -21,9 +21,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
-public class ToDoView extends VerticalLayout {
+public class ToDoView extends CssLayout {
     private TextField newTodo;
     private CssLayout main;
     private CheckBox toggleAll;
@@ -111,7 +110,6 @@ public class ToDoView extends VerticalLayout {
 
             }
         });
-
     }
 
     CssLayout getNewTodoRow(final String captionText, final boolean done,
