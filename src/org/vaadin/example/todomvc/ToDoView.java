@@ -8,20 +8,20 @@ import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class ToDoView extends VerticalLayout implements View {
-	private TextField newTodo;
+    private TextField newTodo;
     private CssLayout main;
 
-	public ToDoView() {
+    public ToDoView() {
         Label title = new Label("todos");
         title.addStyleName("title");
         addComponent(title);
@@ -46,29 +46,33 @@ public class ToDoView extends VerticalLayout implements View {
                         "This one is not done and is being edited", false, true));
             }
         });
-        
-        newTodo.addShortcutListener(new ShortcutListener(null, KeyCode.ENTER, null) {
-			
-			@Override
-			public void handleAction(Object sender, Object target) {
-				main.addComponent(getNewTodoRow(newTodo.getValue(), false, false));
-			}
-		});
+
+        newTodo.addShortcutListener(new ShortcutListener(null, KeyCode.ENTER,
+                null) {
+
+            @Override
+            public void handleAction(Object sender, Object target) {
+                main.addComponent(getNewTodoRow(newTodo.getValue(), false,
+                        false));
+            }
+        });
 
         addComponent(new CssLayout() {
             {
                 addStyleName("footer");
 
-                Label todoCount = new Label("## items left");
+                Label todoCount = new Label("<b>##</b> items left",
+                        ContentMode.HTML);
                 todoCount.addStyleName("todo-count");
                 todoCount.setSizeUndefined();
                 addComponent(todoCount);
 
-                HorizontalLayout filters = new HorizontalLayout();
+                CssLayout filters = new CssLayout();
                 filters.addStyleName("filters");
                 addComponent(filters);
 
                 NativeButton all = new NativeButton("All");
+                all.addStyleName("selected");
                 NativeButton active = new NativeButton("Active");
                 NativeButton completed = new NativeButton("Completed");
                 filters.addComponents(all, active, completed);
