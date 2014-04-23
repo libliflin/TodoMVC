@@ -1,5 +1,8 @@
 package org.vaadin.example.todomvc;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.FieldEvents.BlurEvent;
@@ -23,8 +26,10 @@ import com.vaadin.ui.VerticalLayout;
 public class ToDoView extends VerticalLayout {
     private TextField newTodo;
     private CssLayout main;
+    private CheckBox toggleAll;
 
     private boolean newTodoFocused;
+    private Set<TodoRow> rows = new HashSet<TodoRow>();
 
     public ToDoView() {
         Label title = new Label("todos");
@@ -39,16 +44,9 @@ public class ToDoView extends VerticalLayout {
         addComponent(main = new CssLayout() {
             {
                 addStyleName("main");
-                CheckBox toggleAll = new CheckBox("Mark all as complete");
+                toggleAll = new CheckBox("Mark all as complete");
                 toggleAll.addStyleName("toggle-all");
                 addComponent(toggleAll);
-
-                addComponent(getNewTodoRow("This item is done", true, false));
-                addComponent(getNewTodoRow(
-                        "This one is still not done, and has a very long caption which should span a few lines",
-                        false, false));
-                addComponent(getNewTodoRow(
-                        "This one is not done and is being edited", false, true));
             }
         });
 
@@ -112,74 +110,82 @@ public class ToDoView extends VerticalLayout {
 
     }
 
-    CssLayout getNewTodoRow(String captionText, boolean done, boolean editing) {
-        final CssLayout row = new CssLayout();
-        row.addStyleName("todo-row");
-        if (done) {
-            row.addStyleName("completed");
-        }
-        if (editing) {
-            row.addStyleName("editing");
-        }
-
-        final CheckBox completed = new CheckBox(null, done);
-        row.addComponent(completed);
-
-        final Label caption = new Label(captionText);
-        caption.setSizeUndefined();
-        row.addComponent(caption);
-
-        NativeButton destroy = new NativeButton();
-        destroy.addStyleName("destroy");
-        row.addComponent(destroy);
-
-        final TextField edit = new TextField();
-        edit.setValue(captionText);
-        row.addComponent(edit);
-
-        completed.addValueChangeListener(new ValueChangeListener() {
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                if (completed.getValue().booleanValue()) {
-                    row.addStyleName("completed");
-                } else {
-                    row.removeStyleName("completed");
-                }
-            }
-        });
-
-        row.addLayoutClickListener(new LayoutClickListener() {
-
-            @Override
-            public void layoutClick(LayoutClickEvent event) {
-                if (event.isDoubleClick()
-                        && caption == event.getClickedComponent()) {
-                    row.addStyleName("editing");
-                    edit.selectAll();
-                    edit.focus();
-                }
-            }
-        });
-
-        edit.addBlurListener(new BlurListener() {
-
-            @Override
-            public void blur(BlurEvent event) {
-                row.removeStyleName("editing");
-                caption.setValue(edit.getValue());
-            }
-        });
-
-        destroy.addClickListener(new ClickListener() {
-
-            @Override
-            public void buttonClick(ClickEvent event) {
-                main.removeComponent(row);
-            }
-        });
-
+    CssLayout getNewTodoRow(final String captionText, final boolean done,
+            final boolean editing) {
+        TodoRow row = new TodoRow(captionText, done, editing);
+        rows.add(row);
         return row;
     }
 
+    private class TodoRow extends CssLayout {
+        public TodoRow(final String captionText, final boolean done,
+                final boolean editing) {
+            addStyleName("todo-row");
+            if (done) {
+                addStyleName("completed");
+            }
+            if (editing) {
+                addStyleName("editing");
+            }
+
+            final CheckBox completed = new CheckBox(null, done);
+            addComponent(completed);
+
+            final Label caption = new Label(captionText);
+            caption.setSizeUndefined();
+            addComponent(caption);
+
+            NativeButton destroy = new NativeButton();
+            destroy.addStyleName("destroy");
+            addComponent(destroy);
+
+            final TextField edit = new TextField();
+            edit.setValue(captionText);
+            addComponent(edit);
+
+            completed.addValueChangeListener(new ValueChangeListener() {
+
+                @Override
+                public void valueChange(ValueChangeEvent event) {
+                    if (completed.getValue().booleanValue()) {
+                        addStyleName("completed");
+                    } else {
+                        removeStyleName("completed");
+                    }
+                }
+            });
+
+            addLayoutClickListener(new LayoutClickListener() {
+
+                @Override
+                public void layoutClick(LayoutClickEvent event) {
+                    if (event.isDoubleClick()
+                            && caption == event.getClickedComponent()) {
+                        addStyleName("editing");
+                        edit.selectAll();
+                        edit.focus();
+                    }
+                }
+            });
+
+            edit.addBlurListener(new BlurListener() {
+
+                @Override
+                public void blur(BlurEvent event) {
+                    removeStyleName("editing");
+                    caption.setValue(edit.getValue());
+                }
+            });
+
+            destroy.addClickListener(new ClickListener() {
+
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    main.removeComponent(TodoRow.this);
+                    rows.remove(TodoRow.this);
+                }
+            });
+
+        }
+    }
 }
