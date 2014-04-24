@@ -8,14 +8,11 @@
   color: #4d4d4d;
   width: 550px;
   margin: 0 auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  -ms-font-smoothing: antialiased;
-  -o-font-smoothing: antialiased;
-  font-smoothing: antialiased;
+  @include font-smoothing(antialiased);
   overflow: auto;
   height: auto;
 }
+
 
 .todomvc {
   @include todomvc;
