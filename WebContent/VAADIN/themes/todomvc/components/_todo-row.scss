@@ -1,3 +1,7 @@
+$todo-row-checkmark-width: 43px;
+$todo-row-input-border-width: 1px;
+
+
 @mixin todo-row {
 	
 	.todo-row {
@@ -13,13 +17,13 @@
     .v-checkbox input {
       text-align: center;
       width: 40px;
-      /* auto, since non-WebKit browsers doesn't support input styling */
+      // auto, since non-WebKit browsers doesn't support input styling
       height: auto;
       position: absolute;
       top: 0;
       bottom: 0;
       margin: auto 0;
-      /* Mobile Safari */
+      // Mobile Safari
       border: none;
       @include appearance(none);
       
@@ -28,7 +32,7 @@
       
       &:after {
         content: '\2714';
-        /* 40 + a couple of pixels visual adjustment */
+        // 40 + a couple of pixels visual adjustment
         line-height: 43px;
         font-size: 20px;
         color: #d9d9d9;
@@ -48,7 +52,7 @@
       white-space: pre;
       word-break: break-word;
       padding: 15px 60px 15px 15px;
-      margin-left: 45px;
+      margin-left: $todo-row-checkmark-width + $todo-row-input-border-width*2;
       display: block;
       line-height: 1.2;
       @include transition(color 0.4s);
@@ -99,7 +103,7 @@
       outline: none;
       color: inherit;
       padding: 6px !important;
-      border: 1px solid #999;
+      border: $todo-row-input-border-width solid #999;
       box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
       @include box-sizing(border-box);
       @include font-smoothing(antialiased);
@@ -116,7 +120,7 @@
     
     &.editing .v-textfield {
       display: block;
-      width: 506px;
+      width: $main-layout-width - $todo-row-checkmark-width;
       padding: 13px 17px 12px 17px !important;
       margin: 0 0 0 43px;
     }

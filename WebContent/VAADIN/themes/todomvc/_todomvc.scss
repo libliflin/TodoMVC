@@ -4,6 +4,9 @@
 // Import utility mixins
 @import "util/mixins";
 
+// Import variables
+@import "components/variables";
+
 // Import component mixins
 @import "components/resets";
 @import "components/main";

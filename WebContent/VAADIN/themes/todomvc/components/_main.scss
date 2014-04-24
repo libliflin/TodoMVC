@@ -1,3 +1,16 @@
+@mixin body-styles {
+  .v-generated-body {
+	  font: $font-size 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	  line-height: $line-height;
+	  background: #eaeaea url('../img/bg.png');
+	  color: $font-color;
+	  @include font-smoothing(antialiased);
+	  overflow: auto;
+	  height: auto;
+	}
+}
+
+
 @mixin main {
 	
 	#todoapp {
@@ -9,8 +22,9 @@
     border-top-right-radius: 2px;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
                 0 25px 50px 0 rgba(0, 0, 0, 0.15);
-    width: 550px;
+    width: $main-layout-width;
     margin: 130px auto 40px auto;
+    @include box-sizing(content-box);
 
     &:before {
       content: '';

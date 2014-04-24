@@ -1,17 +1,7 @@
 @import "todomvc";
 
 
-.v-generated-body {
-  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  line-height: 1.4em;
-  background: #eaeaea url('img/bg.png');
-  color: #4d4d4d;
-  width: 550px;
-  margin: 0 auto;
-  @include font-smoothing(antialiased);
-  overflow: auto;
-  height: auto;
-}
+@include body-styles;
 
 
 .todomvc {
