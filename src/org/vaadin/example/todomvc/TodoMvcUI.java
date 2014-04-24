@@ -13,7 +13,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
-@Theme("todomvc")
+@Theme("todomvc-css")
 @PreserveOnRefresh
 public class TodoMvcUI extends UI {
 
