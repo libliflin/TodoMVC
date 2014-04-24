@@ -156,6 +156,22 @@ public class ToDoView extends CssLayout {
                         }
                     }
                 });
+
+                clearCompleted.addClickListener(new ClickListener() {
+
+                    @Override
+                    public void buttonClick(ClickEvent event) {
+                        Set<TodoRow> tbd = new HashSet<ToDoView.TodoRow>();
+                        for (TodoRow row : rows) {
+                            if (row.isCompleted()) {
+                                tbd.add(row);
+                            }
+                        }
+                        for (TodoRow row : tbd) {
+                            row.delete();
+                        }
+                    }
+                });
             }
         });
     }
@@ -256,12 +272,7 @@ public class ToDoView extends CssLayout {
 
                 @Override
                 public void buttonClick(ClickEvent event) {
-                    main.removeComponent(TodoRow.this);
-                    rows.remove(TodoRow.this);
-                    if (checkbox.getValue().booleanValue()) {
-                        itemsCompleted--;
-                    }
-                    updateCounters();
+                    delete();
                 }
             });
         }
@@ -272,6 +283,15 @@ public class ToDoView extends CssLayout {
 
         public void setCompleted(boolean completed) {
             checkbox.setValue(completed);
+        }
+
+        public void delete() {
+            main.removeComponent(TodoRow.this);
+            rows.remove(TodoRow.this);
+            if (checkbox.getValue().booleanValue()) {
+                itemsCompleted--;
+            }
+            updateCounters();
         }
     }
 }
