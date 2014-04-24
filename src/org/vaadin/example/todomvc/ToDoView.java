@@ -28,6 +28,9 @@ public class ToDoView extends CssLayout {
     private Toggle toggleAll;
     private Label todoCount;
     private NativeButton clearCompleted;
+    private NativeButton all;
+    private NativeButton active;
+    private NativeButton completed;
 
     private boolean newTodoFocused;
     private Set<TodoRow> rows = new HashSet<TodoRow>();
@@ -110,10 +113,11 @@ public class ToDoView extends CssLayout {
                 filters.setId("filters");
                 addComponent(filters);
 
-                final NativeButton all = new NativeButton("All");
+                all = new NativeButton("All");
+                active = new NativeButton("Active");
+                completed = new NativeButton("Completed");
+
                 all.addStyleName("selected");
-                final NativeButton active = new NativeButton("Active");
-                final NativeButton completed = new NativeButton("Completed");
                 filters.addComponents(all, active, completed);
 
                 clearCompleted = new NativeButton("Clear completed (0)");
@@ -245,6 +249,7 @@ public class ToDoView extends CssLayout {
                         removeStyleName("completed");
                         itemsCompleted--;
                     }
+                    toggleVisibility();
                     updateCounters();
                 }
             });
@@ -278,6 +283,16 @@ public class ToDoView extends CssLayout {
                     delete();
                 }
             });
+
+            toggleVisibility();
+        }
+
+        private void toggleVisibility() {
+            if (checkbox.getValue().booleanValue()) {
+                setVisible(!active.getStyleName().contains("selected"));
+            } else {
+                setVisible(!completed.getStyleName().contains("selected"));
+            }
         }
 
         public boolean isCompleted() {
