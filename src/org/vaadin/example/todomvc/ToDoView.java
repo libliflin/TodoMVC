@@ -174,6 +174,8 @@ public class ToDoView extends CssLayout {
                 });
             }
         });
+
+        updateCounters();
     }
 
     private TodoRow getNewTodoRow(final String captionText, final boolean done,
@@ -188,6 +190,7 @@ public class ToDoView extends CssLayout {
         int itemsLeft = rows.size() - itemsCompleted;
         todoCount.setValue("<b>" + itemsLeft + "</b> items left");
         clearCompleted.setCaption("Clear completed (" + itemsCompleted + ")");
+        clearCompleted.setVisible(itemsCompleted != 0);
         toggleAll.setInternalValue(itemsLeft == 0);
     }
 
